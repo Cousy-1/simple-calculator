@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'admin.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="logo">Admin Panel</div>
+            <ul class="menu">
+                <li><a href="{% url 'admin_dashboard' %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                <li><a href="{% url 'manage_users' %}"><i class="fas fa-users"></i>Manage Users</a></li>
+                <li><a href="{% url 'manage_pages' %}"><i class="fas fa-file-alt"></i>Manage Pages</a></li>
+                <li><a href="{% url 'database_overview' %}"><i class="fas fa-database"></i>Database Overview</a></li>
+                <li><a href="{% url 'settings' %}"><i class="fas fa-cog"></i>Settings</a></li>
+                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+            </ul>
+        </aside>
+
+        {% if user.is_authenticated %}
+    <h1>Welcome, {{ user.username }}</h1>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+{% else %}
+    <p>You are not authorized. <a href="{% url 'admin_login_signup' %}">Login</a></p>
+{% endif %}
+
+        <main class="dashboard-content">
+            <h1>Welcome, Admin</h1>
+            <div class="stats">
+                <div class="card">Users: <span>{{ user_count }}</span></div>
+                <div class="card">Pages: <span>{{ page_count }}</span></div>
+                <div class="card">Database Records: <span>{{ record_count }}</span></div>
+            </div>
+            <section class="management">
+                <h2>Quick Actions</h2>
+                <div class="actions">
+                    <button class="action-btn add-user">Add User</button>
+                    <button class="action-btn modify-pages">Modify Pages</button>
+                    <button class="action-btn view-logs">View Logs</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        gsap.from(".dashboard-content", { opacity: 0, y: 30, duration: 1, ease: "power2.out" });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!-- marketplace.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introverse Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'shop.css' %}">
+</head>
+
+<body>
+    <!-- Video Background -->
+    <div class="video-container">
+        <video id="bg-video" autoplay muted loop playsinline>
+            <source src="https://cdn.pixabay.com/vimeo/876144683/space-182018.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <header class="main-header">
+        <div class="logo">
+            <h1>Introverse Marketplace</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Search Bar -->
+        <section class="search-section">
+            <form id="search-form" method="get" action="{% url 'marketplace' %}">
+                <input type="text" id="search" name="search" placeholder="Search for products..." required>
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </section>
+
+        <!-- Categories -->
+        <section class="categories-section">
+            <h3>Categories</h3>
+            <div class="categories-grid">
+                <a href="{% url 'marketplace' %}?category=clothes" class="category-card">
+                    <i class="fas fa-tshirt"></i>
+                    <p>Clothes</p>
+                </a>
+                <a href="{% url 'marketplace' %}?category=crochets" class="category-card">
+                    <i class="fas fa-yarn"></i>
+                    <p>Crochets</p>
+                </a>
+                <a href="{% url 'marketplace' %}?category=houses" class="category-card">
+                    <i class="fas fa-home"></i>
+                    <p>Houses</p>
+                </a>
+                <a href="{% url 'marketplace' %}?category=books" class="category-card">
+                    <i class="fas fa-book"></i>
+                    <p>Books</p>
+                </a>
+                <a href="{% url 'marketplace' %}?category=cars" class="category-card">
+                    <i class="fas fa-car"></i>
+                    <p>Cars</p>
+                </a>
+                <a href="{% url 'marketplace' %}?category=shoes" class="category-card">
+                    <i class="fas fa-shoe-prints"></i>
+                    <p>Shoes</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Product Listings -->
+        <section class="products-section">
+            <h3>Featured Products</h3>
+            <div class="products-grid">
+                {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h4>{{ product.name }}</h4>
+                    <p>{{ product.description }}</p>
+                    <p class="price">${{ product.price }}</p>
+                    <button class="add-to-cart" data-product-id="{{ product.id }}">Add to Cart</button>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Checkout Section -->
+        <section class="checkout-section">
+            <h3>Checkout</h3>
+            <div class="checkout-summary">
+                <p>Total Items: <span id="total-items">0</span></p>
+                <p>Total Price: $<span id="total-price">0.00</span></p>
+                <button id="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>© 2024 Introverse Marketplace. All Rights Reserved.</p>
+        <ul>
+            <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+            <li><a href="{% url 'terms' %}">Terms of Service</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        // Add to Cart Functionality
+        let cart = [];
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function () {
+                const productId = this.getAttribute('data-product-id');
+                fetch(`/add-to-cart/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            cart.push(data.product);
+                            updateCartSummary();
+                            alert('Product added to cart!');
+                        } else {
+                            alert('Failed to add product to cart.');
+                        }
+                    });
+            });
+        });
+
+        // Update Cart Summary
+        function updateCartSummary() {
+            const totalItems = cart.length;
+            const totalPrice = cart.reduce((sum, product) => sum + parseFloat(product.price), 0).toFixed(2);
+            document.getElementById('total-items').textContent = totalItems;
+            document.getElementById('total-price').textContent = totalPrice;
+        }
+
+        // Checkout Button
+        document.getElementById('checkout-btn').addEventListener('click', function () {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+            } else {
+                window.location.href = "{% url 'checkout' %}";
+            }
+        });
+    </script>
+</body>
+
+</html>

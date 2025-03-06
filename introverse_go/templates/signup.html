@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introverse - Sign Up</title>
+    <link rel="stylesheet" href="{% static 'signup.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Video Background -->
+    <div class="video-container">
+        <video autoplay muted loop id="bg-video">
+            <source src="{% static 'videos/nebula.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="particles">
+        {% for _ in '12345678901234567890123456789012345678901234567890' %}
+        <div class="particle" style="top: {{ forloop.counter|add:"0" }}%; left: {{ forloop.counter|add:"0" }}%; animation-delay: {{ forloop.counter|divisibleby:5|yesno:"0,1" }}s;"></div>
+        {% endfor %}
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Create Your Account</h2>
+            <p>Join Introverse and start your journey today.</p>
+            <form class="auth-form" method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="auth-btn">Sign Up</button>
+            </form>
+            <div class="auth-footer">
+                <p>Already have an account? <a href="{% url 'signin' %}">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

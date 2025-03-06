@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="{% static 'admin_login_signup.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2 id="form-title">Admin Login</h2>
+            
+            <form method="POST" action="{% url 'admin_login' %}" class="sign-in-form">
+                {% csrf_token %}
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Sign In</button>
+                <p class="switch">Don't have an account? <a href="#" class="toggle-link">Sign Up</a></p>
+            </form>
+
+            <form method="POST" action="{% url 'admin_signup' %}" class="sign-up-form hidden">
+                {% csrf_token %}
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Sign Up</button>
+                <p class="switch">Already have an account? <a href="#" class="toggle-link">Sign In</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.toggle-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.sign-in-form').classList.toggle('hidden');
+                document.querySelector('.sign-up-form').classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

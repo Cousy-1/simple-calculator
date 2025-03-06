@@ -1,0 +1,186 @@
+<!-- home.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introverse - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'homepage.css' %}">
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-container">
+        <video id="bg-video" autoplay muted loop playsinline>
+            <source src="{% static 'nebula.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <header class="main-header">
+        <div class="logo">
+            <h1>Introverse</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="{% url 'chat' %}"><i class="fas fa-comments"></i> Messages</a></li>
+                <li><a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="{% url 'shop' %}"><i class="fas fa-shopping-cart"></i> Shop</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <h2>Welcome to Introverse</h2>
+                <p>Your hub for connection, creativity, and community. Join us to explore endless possibilities.</p>
+              
+            </div>
+        </section>
+
+        <!-- Live Clock Widget -->
+        <section class="widget-section">
+            <div class="live-clock">
+                <h3>Current Time</h3>
+                <div id="clock"></div>
+            </div>
+        </section>
+
+        <!-- E-Commerce Shop Section -->
+        <section class="shop-section">
+            <h3>Explore Our Marketplace</h3>
+            <div class="shop-grid">
+                
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h4>{{ product.name }}</h4>
+                    <p>{{ product.description }}</p>
+                    <p class="price">${{ product.price }}</p>
+                    <button class="add-to-cart" data-product-id="{{ product.id }}">Add to Cart</button>
+                </div>
+             
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h3>Why Choose Introverse?</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x200?technology" alt="Feature 1">
+                    <h4>Interactive</h4>
+                    <p>Designed to keep you engaged and entertained.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x200?community" alt="Feature 2">
+                    <h4>Community Driven</h4>
+                    <p>Be part of a community that grows together.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x200?customization" alt="Feature 3">
+                    <h4>Customizable</h4>
+                    <p>Your space, your rules. Fully tailored to you.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Subscription Widget -->
+        <section class="widget-section">
+            <h3>Subscribe to Our Newsletter</h3>
+            <form id="newsletter-form" class="newsletter-form" method="post">
+                {% csrf_token %}
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+            <p id="newsletter-message"></p>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>© 2024 Introverse. All Rights Reserved.</p>
+        <ul>
+            <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+            <li><a href="{% url 'terms' %}">Terms of Service</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add a parallax effect to the hero section
+        window.addEventListener('scroll', () => {
+            const heroSection = document.querySelector('.hero-section');
+            const scrollPosition = window.scrollY;
+            heroSection.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+        });
+
+        // Live Clock Widget
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Add to Cart Functionality
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function () {
+                const productId = this.getAttribute('data-product-id');
+                fetch(`/add-to-cart/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Product added to cart!');
+                    } else {
+                        alert('Failed to add product to cart.');
+                    }
+                });
+            });
+        });
+
+        // Newsletter Subscription Form
+        document.getElementById('newsletter-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const form = this;
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                const message = document.getElementById('newsletter-message');
+                message.textContent = data.message;
+                message.style.color = data.success ? 'green' : 'red';
+                form.reset();
+            });
+        });
+    </script>
+</body>
+</html>

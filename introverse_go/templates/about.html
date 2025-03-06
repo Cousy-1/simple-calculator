@@ -1,0 +1,89 @@
+<!-- about.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Introverse</title>
+    <link rel="stylesheet" href="{% static 'about.css' %}">
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>About Introverse</h1>
+            <p>Where deep minds connect beyond the surface.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="about-content">
+        <p>Introverse is a sanctuary for thinkers, dreamers, and those who seek depth in a world of noise. We provide a
+            digital space that nurtures intellect, creativity, and authentic connections.</p>
+    </section>
+
+    <!-- Interactive Features Section -->
+    <section class="features">
+        <h2>Why Join Introverse?</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Deep Conversations</h3>
+                <p>Engage in meaningful discussions with like-minded individuals.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Creative Freedom</h3>
+                <p>Express yourself without boundaries.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Community Support</h3>
+                <p>Be part of a supportive and inspiring community.</p>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials Section -->
+<section class="testimonials">
+    <h2>What Our Users Say</h2>
+    <div class="testimonial-grid">
+        <div class="testimonial-card">
+            <p>"Introverse has changed the way I connect with others. It's a breath of fresh air!"</p>
+            <p class="author">- Jane Doe</p>
+        </div>
+        <div class="testimonial-card">
+            <p>"The community is amazing. I've never felt so understood."</p>
+            <p class="author">- John Smith</p>
+        </div>
+    </div>
+</section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <h2>Ready to Dive Deeper?</h2>
+        <a href="{% url 'signup' %}" class="cta-btn">Join Us Now</a>
+    </section>
+    <!-- Add this script at the end of the body -->
+<script>
+    // Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Live Clock
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
+</body>
+</html>

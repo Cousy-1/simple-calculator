@@ -1,0 +1,215 @@
+/* Hypnotic & Modern Sign-Up Page */
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animated Floating Card */
+.auth-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    position: relative;
+    border: 2px solid transparent;
+    animation: float 6s ease-in-out infinite;
+    transition: border 0.5s ease;
+}
+
+/* Gradient Border Effect */
+.auth-card:hover {
+    border-image: linear-gradient(90deg, #00C9FF, #92FE9D) 1;
+}
+
+/* Floating Effect */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Title */
+.auth-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #00C9FF, #92FE9D);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow 2s infinite alternate;
+}
+
+/* Glowing Effect */
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px #00C9FF, 0 0 15px #00C9FF;
+    }
+    100% {
+        text-shadow: 0 0 10px #92FE9D, 0 0 20px #92FE9D;
+    }
+}
+
+/* Description */
+.auth-card p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Input Group */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+    position: relative;
+}
+
+/* Input Labels */
+.input-group label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Input Fields */
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* Input Focus Effect */
+.input-group input:focus {
+    border-color: #00C9FF;
+    box-shadow: 0 0 15px rgba(0, 201, 255, 0.5);
+    transform: scale(1.02);
+}
+
+/* Submit Button */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #FF416C, #FF4B2B);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Neon Ripple Effect */
+.auth-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease;
+}
+
+.auth-btn:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Button Hover Effect */
+.auth-btn:hover {
+    background: linear-gradient(90deg, #FF4B2B, #FF416C);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 75, 43, 0.5);
+}
+
+/* Footer */
+.auth-footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+/* Footer Links */
+.auth-footer a {
+    color: #00C9FF;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.auth-footer a:hover {
+    color: #92FE9D;
+    text-shadow: 0 0 5px #92FE9D, 0 0 10px #92FE9D;
+}
+
+/* Animated Floating Particles */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: floatParticle 6s infinite ease-in-out;
+    opacity: 0.7;
+}
+
+/* Different Sizes & Speeds */
+.particle:nth-child(odd) {
+    width: 3px;
+    height: 3px;
+    animation-duration: 4s;
+}
+.particle:nth-child(even) {
+    width: 6px;
+    height: 6px;
+    animation-duration: 8s;
+}
+
+/* Particle Animation */
+@keyframes floatParticle {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-20px) translateX(20px);
+        opacity: 1;
+    }
+}

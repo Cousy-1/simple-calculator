@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Overview</title>
+    <link rel="stylesheet" href="{% static 'admin.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Database Overview</h1>
+        <p>Total Users: <span id="totalUsers">Loading...</span></p>
+        <p>Total Pages: <span id="totalPages">Loading...</span></p>
+    </div>
+    <script>
+        document.getElementById("totalUsers").textContent = "100";
+        document.getElementById("totalPages").textContent = "25";
+    </script>
+</body>
+
+</html>

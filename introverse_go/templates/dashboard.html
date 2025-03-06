@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introverse Dashboard</title>
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body>
+    <div class="video-container">
+        <video autoplay muted loop id="bg-video">
+            <source src="https://cdn.videvo.net/videvo_files/video/free/2014-12/large_watermarked/Raindrops_Videvo_preview.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Introverse</div>
+            <ul class="menu">
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                <li><a href="{% url 'home' %}"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i>Profile</a></li>
+                <li><a href="{% url 'chat' %}"><i class="fas fa-comments"></i>Messages</a></li>
+                <li><a href="{% url 'settings' %}"><i class="fas fa-cog"></i>Settings</a></li>
+                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+            </ul>
+            <form action="{% url 'mpesa_stk_push' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="phone_number" placeholder="Enter M-Pesa number" required>
+                <input type="number" name="amount" placeholder="Amount (KES)" required>
+                <button type="submit">Pay with M-Pesa</button>
+            </form>
+            
+                
+        </aside>
+
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Welcome Back, Explorer!</h1>
+                <p>Your journey of self-discovery continues...</p>
+            </header>
+
+            <section class="widgets">
+                <div class="widget hypnosis">
+                    <h2>Mind Expansion</h2>
+                    <p>Engage with thought-provoking content tailored to you.</p>
+                </div>
+                <div class="widget insights">
+                    <h2>Daily Insights</h2>
+                    <p>Today's wisdom: "The mind is everything. What you think, you become."</p>
+                </div>
+                <div class="widget trends">
+                    <h2>Trending</h2>
+                    <p>Discover what's captivating the community.</p>
+                </div>
+                <div class="widget christians">
+                    <h2>Faith & Inspiration</h2>
+                    <p>Today's Bible verse: "I can do all things through Christ who strengthens me."<br>Philippians 4:13 🙌✨</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        gsap.from(".widget", { opacity: 0, y: 50, duration: 1, stagger: 0.2, ease: "power2.out" });
+    </script>
+</body>
+
+</html>

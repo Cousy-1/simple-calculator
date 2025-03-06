@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introverse - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-container">
+        <video id="bg-video" autoplay muted loop playsinline>
+            <source src="https://cdn.pixabay.com/vimeo/876144683/space-182018.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="overlay"></div>
+    </div>
+
+    <header class="main-header">
+        <div class="logo">
+            <h1>Introverse</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'signin' %}">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <h2>Welcome to Introverse</h2>
+                <p>Your hub for connection, creativity, and community. Join us to explore endless possibilities.</p>
+                <a href="{% url 'signup' %}" class="cta-btn">Get Started</a>
+            </div>
+        </section>
+
+        <!-- Live Clock Widget -->
+        <section class="widget-section">
+            <div class="live-clock">
+                <h3>Current Time</h3>
+                <div id="clock"></div>
+            </div>
+        </section>
+
+        
+
+        <!-- Features Section -->
+        <section class="features">
+            <h3>Why Choose Introverse?</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x200?technology" alt="Feature 1">
+                    <h4>Interactive</h4>
+                    <p>Designed to keep you engaged and entertained.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x400?technology" alt="Tech">
+                    <p>Explore the latest tech innovations.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x350?community" alt="Community">
+                    <p>Join a growing community of thinkers.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x450?space" alt="Space">
+                    <p>Dive into the mysteries of the cosmos.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x300?creativity" alt="Creativity">
+                    <p>Unleash your creative potential.</p>
+                
+                </div>
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x200?community" alt="Feature 2">
+                    <h4>Community Driven</h4>
+                    <p>Be part of a community that grows together.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="https://source.unsplash.com/random/300x200?customization" alt="Feature 3">
+                    <h4>Customizable</h4>
+                    <p>Your space, your rules. Fully tailored to you.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Subscription Widget -->
+        <section class="widget-section">
+            <h3>Subscribe to Our Newsletter</h3>
+            <form id="newsletter-form" class="newsletter-form">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+            <p id="newsletter-message"></p>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>© 2024 Introverse. All Rights Reserved.</p>
+        <ul>
+            <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+            <li><a href="{% url 'terms' %}">Terms of Service</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add a parallax effect to the hero section
+        window.addEventListener('scroll', () => {
+            const heroSection = document.querySelector('.hero-section');
+            const scrollPosition = window.scrollY;
+            heroSection.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+        });
+
+        // Live Clock Widget
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Animated Statistics Counter
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // Animation speed
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCount, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
+        });
+
+        // Newsletter Subscription Form
+        document.getElementById('newsletter-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('newsletter-message');
+
+            // Simulate a successful subscription
+            message.textContent = `Thank you for subscribing, ${email}!`;
+            message.style.color = 'green';
+            document.getElementById('newsletter-form').reset();
+        });
+    </script>
+</body>
+</html>

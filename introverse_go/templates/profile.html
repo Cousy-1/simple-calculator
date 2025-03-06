@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{static 'profile.css'}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body>
+    <div class="profile-container">
+        <aside class="sidebar">
+            <div class="logo">Introverse</div>
+            <ul class="menu">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                <li><a href="Homepage.html"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i>Profile</a></li>
+                <li><a href="chat.html"><i class="fas fa-comments"></i>Messages</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i>Settings</a></li>
+                <li><a href="logout.html"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="profile-content">
+            <h1>Manage Your Profile</h1>
+            <div class="profile-card">
+                <div class="profile-picture">
+                    <img id="profile-img" src="default-avatar.png" alt="Profile Picture">
+                    <input type="file" id="upload" hidden>
+                    <button onclick="document.getElementById('upload').click();">
+                        <i class="fas fa-upload"></i> Upload
+                    </button>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Your username">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="bio">Bio</label>
+                        <textarea id="bio" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save Changes</button>
+                        <button type="button" class="delete-btn">Delete Profile</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('upload').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profile-img').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        gsap.from(".profile-card", { opacity: 0, y: 50, duration: 1, ease: "power2.out" });
+    </script>
+</body>
+
+</html>
